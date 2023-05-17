@@ -1,0 +1,112 @@
+---
+title: "Decision Tree"
+author: "Awesome Me"
+date: "2023-05-17"
+output: html_document
+---
+
+## Housing Prices Competition for Kaggle Learn Users
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## load packages
+```{r warning = F}
+if(!require("pacman")) install.packages("pacman")
+pacman::p_load(
+  tidyverse,
+  janitor,
+  readxl,
+  knitr,
+  ggplot2,
+  lubridate,
+  arules,
+  arulesViz,
+  plyr,
+  here,
+  conflicted,
+  RColorBrewer,
+  skimr,
+  psych,
+  reshape2,
+  DataExplorer,
+  scales,
+  boot,
+  randomForest
+)
+
+```
+
+```{r}
+
+# load data set
+# https://www.kaggle.com/competitions/home-data-for-ml-course/data
+
+housing_prices = read_csv(here::here("train.csv")) %>% as_tibble()
+
+```
+
+## inspect dataset structure 
+
+```{r}
+
+housing_prices %>% colnames()  # list of column names
+housing_prices %>% nrow()  # how many rows are in data frame?
+housing_prices %>% dim()  # dimensions of the data frame?
+housing_prices %>% head()  # see the first 6 rows of data frame.  also tail()
+housing_prices %>% str()  # see list of columns and data types (numeric, character, etc)
+housing_prices %>% summary()  #Statistical summary of data.
+
+```
+
+## examining duplicate records -> for col1, col2, ...
+
+```{r}
+
+duplicated_rows <- housing_prices %>% 
+  get_dupes()
+
+duplicated_rows[0,] %>% print()
+
+```
+
+## remove temporary variables 
+```{r}
+
+rm(list = grep("^duplicated", ls(), value = TRUE))
+
+```
+
+## checking distinct for the whole df or single column
+```{r}
+
+n_distinct(housing_prices) 
+
+
+```
+
+
+## checking for NAs
+```{r}
+
+sum(is.na(housing_prices))
+
+```
+
+## drop all na values (missing values)
+```{r}
+
+housing_prices <- housing_prices %>% drop_na()
+
+```
+
+
+
+
+
+
+
+
+
+
